@@ -18,7 +18,7 @@ fun main() {
         return input.sumOf { line ->
             val first = digitsMap.map { it.value to line.indexOf(it.key) }.filter { it.second >= 0 }.minBy { it.second }.first
             val last = digitsMap.maxBy { line.lastIndexOf(it.key) }.value
-            return@sumOf first * 10 + last
+            first * 10 + last
         }
 
     }
