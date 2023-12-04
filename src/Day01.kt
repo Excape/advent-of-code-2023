@@ -16,7 +16,8 @@ fun main() {
             "nine" to 9,
         ) + (1..9).associateBy { it.toString() }
         return input.sumOf { line ->
-            val first = digitsMap.map { it.value to line.indexOf(it.key) }.filter { it.second >= 0 }.minBy { it.second }.first
+            val first =
+                digitsMap.map { it.value to line.indexOf(it.key) }.filter { it.second >= 0 }.minBy { it.second }.first
             val last = digitsMap.maxBy { line.lastIndexOf(it.key) }.value
             first * 10 + last
         }
