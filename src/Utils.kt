@@ -8,6 +8,7 @@ import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.math.BigInteger
 import java.security.MessageDigest
+import kotlin.math.abs
 
 /**
  * Reads lines from the given input txt file.
@@ -69,3 +70,18 @@ fun paddedDay(day: Int) = day.toString().padStart(2, '0')
 private fun readSession() = File("session").readText()
 
 data class Point(val x: Int, val y: Int)
+
+fun gcd(a: Long, b: Long): Long {
+    return if (b == 0L) abs(a) else gcd(b, a % b)
+}
+
+fun lcm(a: Long, b: Long): Long {
+    return abs(a * b) / gcd(a, b)
+}
+
+fun Collection<Long>.lcm(): Long {
+    if (this.isEmpty()) {
+        throw IllegalArgumentException("List cannot be empty")
+    }
+    return this.reduce {acc, n -> lcm(acc, n)}
+}
