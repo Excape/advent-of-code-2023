@@ -30,14 +30,16 @@ fun main() {
 
     class Hand(val input: String, val withJokerRule: Boolean = false) : Comparable<Hand> {
         val frequencies = getFrequencies(input, withJokerRule)
+        val maxFrequency = frequencies.values.max()
+
         val handValue = when (frequencies.size) {
-            1 -> 7 // FOAK
-            2 -> when (frequencies.values.max()) {
-                4 -> 6 // FOAK
+            1 -> 7 // FourOAK
+            2 -> when (maxFrequency) {
+                4 -> 6 // FiveOAK
                 else -> 5 // FH
             }
 
-            3 -> when (frequencies.values.max()) {
+            3 -> when (maxFrequency) {
                 3 -> 4 // TOAK
                 else -> 3 // Two pair
             }
@@ -63,19 +65,17 @@ fun main() {
         override fun toString() = input
     }
 
-    fun part1(input: List<String>): Int {
-        return input.map { it.split(" ") }.map { Pair(Hand(it[0]), it[1].toInt()) }
-            .sortedBy { it.first }
-            .mapIndexed { rank, (hand, bid) -> (rank + 1) * bid }
-            .sum()
-    }
+    fun part1(input: List<String>) = input.map { it.split(" ") }
+        .map { Pair(Hand(it[0]), it[1].toInt()) }
+        .sortedBy { it.first }
+        .mapIndexed { rank, (hand, bid) -> (rank + 1) * bid }
+        .sum()
 
-    fun part2(input: List<String>): Int {
-        return input.map { it.split(" ") }.map { Pair(Hand(it[0], true), it[1].toInt()) }
-            .sortedBy { it.first }
-            .mapIndexed { rank, (hand, bid) -> (rank + 1) * bid }
-            .sum()
-    }
+    fun part2(input: List<String>) = input.map { it.split(" ") }
+        .map { Pair(Hand(it[0], true), it[1].toInt()) }
+        .sortedBy { it.first }
+        .mapIndexed { rank, (hand, bid) -> (rank + 1) * bid }
+        .sum()
 
     val testInput = readInput("Day07_test")
     check(part1(testInput) == 6440)
